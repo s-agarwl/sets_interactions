@@ -1,0 +1,1 @@
+To run the prototype, open the index.html with any browser. The prototype works best with Google Chrome.

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <!-- TODO: Sort imports and check if all necessary -->
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <script src="js/d3.js" charset="utf-8"></script>
+    <script src="js/d3.tip.js" charset="utf-8"></script>
+    <script src="js/compatibility.js" charset="utf-8"></script>
+    <script src="js/jquery-1.12.4.js"></script>
+    <!-- <script src="js/jquery.dataTables.min.js"></script> -->
+    <script src="js/datasets.js"></script>
+    
+    <link href="css/d3.tip.css" rel="stylesheet" type="text/css">
+    <!-- <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"> -->
+    <link href="css/material.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="css/dataTables.material.min.css" rel="stylesheet" type="text/css"> -->
+    <link href='fonts/opensans.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/w3.css">
+    <!-- <link href="open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"> -->
+    <link href="css/whhg.css" rel="stylesheet">
+    <script src="js/jquery-ui.js"></script>
+    <!-- <script src="js/topojson.v1.min.js"></script> -->
+    <link href='css/style_largefont.css' rel='stylesheet' type='text/css'>
+    <link href='css/style.css' rel='stylesheet' type='text/css'>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" /> -->
+    <!-- <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- <script src="js/jquery.min.js"></script> -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/svg-dropdown.js"></script>
+
+    <title>Visualizing Element Interactions in Dynamic Overlapping Sets</title>
+    <link rel="icon" href="./favicon.png">
+    <style>
+        .pageLinks{
+            margin-left:10px;
+            display: inline;
+        }
+        .form-control{
+            padding: 0px 12px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            height:24px;
+            width:calc(100% - 30px);
+            display:inline-block;
+        }
+    </style>
+  
+</head>
+
+<body>
+
+    <div id="id01" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top">
+            <header class="w3-container w3-black">
+                <span onclick="datasetSelection.toggleDataSetInformation()" class="w3-button w3-display-topright">&times;</span>
+                <h2>Dataset Information</h2>
+            </header>
+            <div class="w3-container">
+                <div id="datasetInformation"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="paperInfo" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top">
+            <header class="w3-container w3-black">
+                <span onclick="document.getElementById('paperInfo').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                <h2>Publications:</h2>
+            </header>
+            <div class="w3-container">
+                <p></p>
+                <ol id="paperList">
+                </ol>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="main">
+        <div id="leftPanel">
+
+            <div id="header">
+                <a href="tutorial.html" class="pageLinks" target="_blank"><span class="glyphicon glyphicon-blackboard"></span>Tutorial</a>
+                <div id="title" class="pageLinks">  
+                    <img src="images/logo.png" height = "50px"/>
+                    <span>Visualizing Element Interactions in Dynamic Overlapping Sets</span>
+                </div>
+                <div id="dataset">
+                    <div>
+                        <label>Select Dataset:</label>
+                        <select id="datasetDropDown"></select>
+                        <i class="icon icon-info-sign" title="Dataset information" onclick="datasetSelection.toggleDataSetInformation()"></i>
+                    </div>
+                    <div>
+                        <label>Dataset Statistics:</label>
+                        <span class="stats"># base sets = <span id="numSets"></span></span>
+                        <span class="stats"># elements = <span id="numObjects"></span></span>
+                        <span class="stats"># timesteps = <span id="numTimesteps"></span></span>
+                        <span class="stats"># intersections = <span id="numIntersections"></span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="selectionPanel">
+                <div><label class="col">Selection:</label></div>
+                <div id="selectionAB"><span class="groupLabel groupAB">Group A+B</span></div>
+                <div style="float:left; width:80%">
+                    <input type="radio" id="radioSelection" name="groupSelection"><span class="" style="margin-left: 10px;">Show Details</span> <span id="selectedEntity"></span></input>
+                </div>
+                <div id="selectionA"></div>
+                <div id="selectionB"></div>
+            </div>
+            
+
+            <div class="borderDiv" id="mainVisualization"></div>
+        </div>
+
+        <div id="rightPanel">
+
+            <div id="selectionDetailsContainer" class="labeledContainer" >
+                <div>
+                    <div class="viewTitle" id="detailsHeader">Details</div>
+                </div>
+                <div class="borderDiv" id="highlightedElement"></div>
+            </div>
+
+            <div id="listExampleContainer" class="labeledContainer" >
+                <div>
+                    <div class="viewTitle">Element List</div>
+                </div>
+                <div class="borderDiv">
+                    <div id="searchPanel" >
+                        <div class="md-form active-purple active-purple-2 mb-3">
+                            <input class="form-control" type="text" placeholder="Search Element" aria-label="Search" id="searchInput"><i class="dot"></i>
+                          </div>
+                    </div>
+                    <div id="listLegend" >
+                        <div class="coloredDivBar groupAB groupLegendDiv" ></div><span id="countAB" class="groupCount">: 0</span>
+                        <div class="coloredDivBar groupA groupLegendDiv" > </div><span id="countA" class="groupCount">: 0</span>
+                        <div class="coloredDivBar groupB groupLegendDiv" > </div><span id="countB" class="groupCount">: 0</span>
+                    </div>
+                    <div style="border-bottom: #636363 1px solid;"></div>
+                    
+                    <table id="listExample"></table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="footer" >
+            <div >
+                <div class="col-sm-2">
+                    
+                </div>
+                <div class="col-sm-8" >
+                        Best viewed in Google Chrome at 1920 x 1280 resolution
+                </div>
+            </div>
+    </div>
+</body>
+
+<script src="js/main.js"></script>
+<script src="js/dynamicfca.js"></script>
+<script src="_data/interactionHyperEdges.js"></script>
+<script src="_data/techCompaniesRawJSON.js"></script>
+<script src="_data/convertRawJSONtoFCA.js"></script>
+
+<div id="arrowHead">
+    <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+            <!-- <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"> -->
+            <path d="M0,0 L0,6 L9,3 z" fill="#CCCCCC" />
+        </marker>
+        <marker id="arrowhighlighted" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+            <!-- <marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="userSpaceOnUse"> -->
+            <path d="M0,0 L0,6 L9,3 z" fill="black" />
+        </marker>
+
+        <pattern id="pattern-stripet1" height="10" width="6" patternUnits="userSpaceOnUse" patternTransform="rotate(90)">
+            <rect x="0" , y="0" , width="6" height="10" fill="grey"></rect>
+            <line x1="0" y1="4" x2="3" y2="4" stroke-width="2" stroke="white" />
+        </pattern>
+        <pattern id="pattern-stripet2" height="10" width="20" patternUnits="userSpaceOnUse" patternTransform="rotate(90)">
+            <rect x="0" , y="0" , width="20" height="10" fill="grey"></rect>
+
+            <line x1="0" y1="4" x2="16" y2="4" stroke-width="2" stroke="white" />
+        </pattern>
+
+        <mask id="mask-stripet2">
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-stripet2)" />
+        </mask>
+    </defs>
+</div>
+<div id="blurFilter">
+    <filter id="blurMe">
+        <feGaussianBlur stdDeviation="3" />
+    </filter>
+</div>
+
+</html>

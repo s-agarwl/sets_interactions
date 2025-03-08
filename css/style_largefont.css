@@ -1,0 +1,174 @@
+g.intent text{
+        font-weight: 900;
+    }
+    body,svg {
+        font-family: 'Open Sans';
+        font-size:16px;
+    }
+
+    body {
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+        /* font-size: 10pt; */
+        /*font-size: 20pt;*/
+    }
+
+    h1 {
+        font-size: 14pt;
+        padding: 5px;
+        margin: 0px;
+    }
+
+    h2 {
+        font-size: 13pt;
+        float: left;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    td {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    table {
+        clear: both;
+    }
+
+    /* File drop */
+
+    #mainVisualization.over {
+        box-shadow: inset 0px 0px 10px blue;
+    }
+
+    #svgTextConsole {
+        display: block;
+        /* font-size: 12pt; */
+        /* height: 20px; */
+        overflow: visible;
+        text-align: center;
+    }
+
+    #navigation {
+        padding: 5px;
+    }
+
+    #navigationHeader {
+        width: 100%;
+        /* border-bottom: 1px solid black; */
+        overflow: hidden;
+    }
+
+    #buttonPanel {
+        padding: 10px;
+        float: left;
+    }
+
+    .navigationRow {
+        white-space: nowrap;
+    }
+
+    #diffPreviewContainer {
+        padding-left: 40px;
+    }
+
+    .preview {
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .preview:hover {
+        /*box-shadow: 0px 0px 2px 2px #58b6fc;*/
+        /* box-shadow: 0px 0px 4px 4px rgb(255, 230, 153); */
+        box-shadow: 0px 0px 4px 4px #cccccc;
+    }
+    .divSelected{
+        box-shadow: 0px 0px 4px 4px rgb(255, 230, 153);
+    }
+
+    #selectionBar svg {
+        cursor: pointer;
+    }
+
+    .inactiveListItem{
+        opacity: 0.2;
+    }
+    .activeListItem{
+        opacity: 1.0;
+
+    }
+
+    table.dataTable tbody tr.selected,
+    table.dataTable.hover tbody tr:hover.selected,
+    table.dataTable.display tbody tr:hover.selected {
+        background-color: rgb(255, 230, 153);
+    }
+
+    /* table.dataTable tbody tr.hovered{
+        background-color: #fff5d6;
+
+    } */
+    table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+        background-color: #fff5d6;
+    }
+
+    .dataTable th {
+        text-align: left;
+    }
+
+    table.dataTable thead th,
+    table.dataTable tfoot th {
+        font-weight: normal;
+        /*font-size: 12pt;           */
+    }
+
+    table.dataTable thead th,
+    table.dataTable thead td {
+        padding: 10px 5px;
+    }
+    table.dataTable tbody th,
+    table.dataTable tbody td {
+        padding: 4px;
+    }
+    table.dataTable tbody tr{
+        height:30px;
+    } 
+
+    .dataTables_filter {
+        float: left !important;
+        padding-left: 5px;
+    }
+
+    .footer {
+        font-size: 8pt;
+    }
+
+    .diffTimelineBar:hover{
+        stroke:black;
+    }
+    /* .individualVersionNavigationBars:hover{
+        stroke:black;
+
+    } */
+    .degreeBar:hover{
+        stroke:black
+    }
+    .degreeBarNormal{
+        fill:grey;
+    }
+    .degreeBarDim
+    {
+        fill:#cccccc;
+    }
+    .degreeBarSelected
+    {
+        stroke:black;
+        stroke-width:1px;
+        fill:grey;
+
+    }
+    .barClicked{
+        stroke:black;
+
+    }
