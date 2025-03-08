@@ -1,8 +1,8 @@
-#Readme
+# Readme
 
 To run the prototype, open the index.html with any browser. The prototype works best with Google Chrome.
 
-##Publication
+## Publication
 
 This prototype is part of the following publication:
 
@@ -19,6 +19,6 @@ This prototype is part of the following publication:
 }
 ```
 
-##Details
+## Details
 
 More details about the research work can be found here: https://s-agarwl.github.io/#/sets_interactions
